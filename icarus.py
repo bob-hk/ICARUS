@@ -31,4 +31,4 @@ def reaction_added(event_data):
 
 # Once we have our event listeners configured, we can start the Flask server with the
 # default `/events` endpoint on port 3000
-slack_events_adapter.start(port=3000)
+slack_events_adapter.start(port=os.environ["PORT"])
