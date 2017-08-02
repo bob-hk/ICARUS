@@ -45,8 +45,9 @@ def reaction_added(event_data):
 def handle_status_change(event_data):
     event = event_data["event"]
     user = event["user"]
-    if "icarus" in event["user"]["status_text"] or "icarus" in event["user"]["status_emoji"]:
-        CLIENT.api_call("users.setPresence", user=user, presence=away)
+    print(event)
+    #if "icarus" in event["user"]["status_text"] or "icarus" in event["user"]["status_emoji"]:
+    #    CLIENT.api_call("users.setPresence", user=user, presence=away)
 
 # Once we have our event listeners configured, we can start the Flask server with the
 # default `/events` endpoint on port 3000
