@@ -12,7 +12,7 @@ class SlackEventAdapter(EventEmitter):
         self.server = SlackServer(verification_token, endpoint, self)
 
     def start(self, host='0.0.0.0', port=None, debug=False):
-        self.server.run(port=port, debug=debug)
+        self.server.run(host=host, port=port, debug=debug)
 
 # Our app's Slack Event Adapter for receiving actions via the Events API
 SLACK_VERIFICATION_TOKEN = environ["SLACK_VERIFICATION_TOKEN"]
@@ -43,4 +43,4 @@ def reaction_added(event_data):
 
 # Once we have our event listeners configured, we can start the Flask server with the
 # default `/events` endpoint on port 3000
-slack_events_adapter.start(host='0.0.0.0', port=environ["PORT"])
+slack_events_adapter.start(port=environ["PORT"])
