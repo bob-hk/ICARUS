@@ -44,8 +44,7 @@ def reaction_added(event_data):
 @slack_events_adapter.on("user_change")
 def handle_status_change(event_data):
     event = event_data["event"]
-    user = event["user"]
-    print(event)
+    user = event["user"]["name"]
     if ("icarus" in event["user"]["profile"]["status_text"]) or ("icarus" in event["user"]["profile"]["status_emoji"]):
         CLIENT.api_call("users.setPresence", user=user, presence="away")
         text = "<@%s> is entering ICARUS time." % user
