@@ -32,22 +32,12 @@ def handle_message(event_data):
         message = "Hello <@%s>! :tada:" % message["user"]
         CLIENT.api_call("chat.postMessage", channel=channel, text=message)
 
-# Example reaction emoji echo
-@slack_events_adapter.on("reaction_added")
-def reaction_added(event_data):
-    event = event_data["event"]
-    emoji = event["reaction"]
-    channel = event["item"]["channel"]
-    text = ":%s:" % emoji
-    CLIENT.api_call("chat.postMessage", channel=channel, text=text)
-
 @slack_events_adapter.on("user_change")
 def handle_status_change(event_data):
     event = event_data["event"]
     user = event["user"]["name"]
-    if ("icarus" in event["user"]["profile"]["status_text"]) or ("icarus" in event["user"]["profile"]["status_emoji"]):
-        CLIENT.api_call("users.setPresence", user=user, presence="away")
-        text = "<@%s> is entering ICARUS time." % user
+    if ("icarus" in event["user"]["profile"]["status_text"].lower()) or ("icarus" in event["user"]["profile"]["status_emoji"].lower()):
+        text = "%s is entering ICARUS time!" % user
         CLIENT.api_call("chat.postMessage", channel=environ["NOTIFICATION_CHANNEL"], text=text)
 
 # Once we have our event listeners configured, we can start the Flask server with the
