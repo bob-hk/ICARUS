@@ -47,7 +47,7 @@ def handle_status_change(event_data):
     user = event["user"]
     print(event)
     if ("icarus" in event["user"]["profile"]["status_text"]) or ("icarus" in event["user"]["profile"]["status_emoji"]):
-        CLIENT.api_call("users.setPresence", user=user, presence=away)
+        CLIENT.api_call("users.setPresence", user=user, presence="away")
         text = "<@%s> is entering ICARUS time." % user
         CLIENT.api_call("chat.postMessage", channel=environ["NOTIFICATION_CHANNEL"], text=text)
 
