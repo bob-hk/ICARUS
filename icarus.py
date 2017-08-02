@@ -41,6 +41,13 @@ def reaction_added(event_data):
     text = ":%s:" % emoji
     CLIENT.api_call("chat.postMessage", channel=channel, text=text)
 
+@slack_events_adapter.on("user_change")
+def handle_status_change(event_data):
+    event = event_data["event"]
+    user = event["user"]
+    if "icarus" in event["user"]["current_status"]:
+        CLIENT.api_call("users.setPresence", user=user, presence=away)
+
 # Once we have our event listeners configured, we can start the Flask server with the
 # default `/events` endpoint on port 3000
 slack_events_adapter.start(port=environ["PORT"])
