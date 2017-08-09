@@ -1,18 +1,6 @@
 from slackclient import SlackClient
 from os import environ
-from pyee import EventEmitter
-from slackeventsapi import SlackServer
-
-class SlackEventAdapter(EventEmitter):
-    # Initialize the Slack event server
-    # If no endpoint is provided, default to listening on '/slack/events'
-    def __init__(self, verification_token, endpoint="/slack/events"):
-        EventEmitter.__init__(self)
-        self.verification_token = verification_token
-        self.server = SlackServer(verification_token, endpoint, self)
-
-    def start(self, host='0.0.0.0', port=None, debug=False):
-        self.server.run(host=host, port=port, debug=debug)
+from events import SlackEventAdapter
 
 # Our app's Slack Event Adapter for receiving actions via the Events API
 SLACK_VERIFICATION_TOKEN = environ["SLACK_VERIFICATION_TOKEN"]
@@ -21,6 +9,10 @@ slack_events_adapter = SlackEventAdapter(SLACK_VERIFICATION_TOKEN, "/slack/event
 # Create a SlackClient for your bot to use for Web API requests
 SLACK_BOT_TOKEN = environ["SLACK_BOT_TOKEN"]
 CLIENT = SlackClient(SLACK_BOT_TOKEN)
+
+# For OAuth
+client_id = environ["SLACK_CLIENT_ID"]
+client_secret = environ["SLACK_CLIENT_SECRET"]
 
 # Example responder to greetings
 @slack_events_adapter.on("message")
